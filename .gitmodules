@@ -1,0 +1,3 @@
+[submodule "include/IKFoM"]
+	path = include/IKFoM
+	url = https://github.com/hku-mars/IKFoM.git
