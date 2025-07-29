@@ -1,5 +1,7 @@
 # IKFoM for IMU Orientation Estimation
 
+This node is a simple demo of using https://github.com/hku-mars/IKFoM for state estimation.
+
 ## Filter Formulation
 
 State:
