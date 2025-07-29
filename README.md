@@ -3,36 +3,43 @@
 ## Filter Formulation
 
 State:
+
 $$
 \mathbf{x} = \mathbf{R}
 $$
 
 Input:
+
 $$
 \mathbf{u} = \mathbf{\omega}_m
 $$
 
 Process noise:
+
 $$
 \mathbf{w} = \mathbf{n}_{\omega}
 $$
 
 Measurement noise:
+
 $$
 \mathbf{v} = \mathbf{n}_a
 $$
 
 System dynamics:
+
 $$
 \mathbf{f}(\mathbf{x}, \mathbf{u}, \mathbf{w}) = \mathbf{\omega}_m - \mathbf{n}_{\omega}
 $$
 
 Measurement model:
+
 $$
 \mathbf{h}(\mathbf{x}, \mathbf{v}) = \mathbf{R}^T \mathbf{g} + \mathbf{n}_a
 $$
 
 Partial derivatives of system dynamics:
+
 $$
 \frac{\partial \mathbf{f}(\mathbf{x \boxplus \delta x}, \mathbf{u}, \mathbf{0})}{\partial \mathbf{\delta x}} = \mathbf{0}_{3}
 $$
@@ -42,6 +49,7 @@ $$
 $$
 
 Partial derivatives of measurement model:
+
 $$
 \frac{\partial (\mathbf{h}(\mathbf{x \boxplus \delta x}, \mathbf{0})\boxminus \mathbf{h}(\mathbf{x}, \mathbf{0}))}{\partial \mathbf{\delta x}} = [\mathbf{R}^T\mathbf{g}]_{\times}
 $$
