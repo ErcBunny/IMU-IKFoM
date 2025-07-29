@@ -29,7 +29,7 @@ $$
 System dynamics:
 
 $$
-\mathbf{f}(\mathbf{x}, \mathbf{u}, \mathbf{w}) = \mathbf{\omega}_m - \mathbf{n}_{\omega}
+\mathbf{f}(\mathbf{x}, \mathbf{u}, \mathbf{w}) = \mathbf{u} - \mathbf{w}
 $$
 
 Measurement model:
