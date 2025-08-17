@@ -25,6 +25,11 @@ public:
         param_ang_vel_var = this->declare_parameter("ang_vel_var", 0.001);
         param_lin_acc_var = this->declare_parameter("lin_acc_var", 0.01);
         param_enable_runtime_printing = this->declare_parameter("enable_runtime_printing", false);
+        acc_confidence_decay = this->declare_parameter("acc_confidence_decay", 0.0);
+        if (acc_confidence_decay < 0) {
+            RCLCPP_ERROR(this->get_logger(), "confidence decay is negative");
+            exit(1);
+        }
 
         estimator = new esekfom::esekf<state, 3, input, measurement, 3>();
         double eps[3];
@@ -40,6 +45,7 @@ private:
     double param_ikfom_eps{1e-6}, param_ang_vel_var{0.01}, param_lin_acc_var{0.01};
     int param_ikfom_max_iter{1000};
     bool param_enable_runtime_printing{false};
+    double acc_confidence_decay{0.0};
 
     esekfom::esekf<state, 3, input, measurement, 3> *estimator{nullptr};
 
@@ -66,11 +72,12 @@ private:
         estimator->predict(dt, process_noise_cov, u);
         auto end_predict = std::chrono::high_resolution_clock::now();
 
-
         // estimator update
         measurement z;
         z.lin_acc << msg->linear_acceleration.x, msg->linear_acceleration.y, msg->linear_acceleration.z;
-        auto measurement_noise_cov = mat_R(param_lin_acc_var);
+        const double acc_norm = z.lin_acc.norm();
+        z.lin_acc.normalize();
+        auto measurement_noise_cov = mat_R(param_lin_acc_var * (1 + acc_confidence_decay * sqrt(abs(acc_norm - 1))));
         auto start_update = std::chrono::high_resolution_clock::now();
         estimator->update_iterated(z, measurement_noise_cov);
         auto end_update = std::chrono::high_resolution_clock::now();
